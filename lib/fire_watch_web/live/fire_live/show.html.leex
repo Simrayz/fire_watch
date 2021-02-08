@@ -1,0 +1,52 @@
+<h1>Show Fire</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal @socket, FireWatchWeb.FireLive.FormComponent,
+    id: @fire.id,
+    title: @page_title,
+    action: @live_action,
+    fire: @fire,
+    return_to: Routes.fire_show_path(@socket, :show, @fire) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Month:</strong>
+    <%= @fire.month %>
+  </li>
+
+  <li>
+    <strong>Day:</strong>
+    <%= @fire.day %>
+  </li>
+
+  <li>
+    <strong>Temp:</strong>
+    <%= @fire.temp %>
+  </li>
+
+  <li>
+    <strong>Rh:</strong>
+    <%= @fire.rh %>
+  </li>
+
+  <li>
+    <strong>Wind:</strong>
+    <%= @fire.wind %>
+  </li>
+
+  <li>
+    <strong>Rain:</strong>
+    <%= @fire.rain %>
+  </li>
+
+  <li>
+    <strong>Area:</strong>
+    <%= @fire.area %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.fire_show_path(@socket, :edit, @fire), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.fire_index_path(@socket, :index) %></span>

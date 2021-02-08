@@ -1,0 +1,38 @@
+<h2><%= @title %></h2>
+
+<%= f = form_for @changeset, "#",
+  id: "fire-form",
+  phx_target: @myself,
+  phx_change: "validate",
+  phx_submit: "save" %>
+
+  <%= label f, :month %>
+  <%= text_input f, :month %>
+  <%= error_tag f, :month %>
+
+  <%= label f, :day %>
+  <%= text_input f, :day %>
+  <%= error_tag f, :day %>
+
+  <%= label f, :temp %>
+  <%= number_input f, :temp, step: "any" %>
+  <%= error_tag f, :temp %>
+
+  <%= label f, :rh %>
+  <%= number_input f, :rh, step: "any" %>
+  <%= error_tag f, :rh %>
+
+  <%= label f, :wind %>
+  <%= number_input f, :wind, step: "any" %>
+  <%= error_tag f, :wind %>
+
+  <%= label f, :rain %>
+  <%= number_input f, :rain, step: "any" %>
+  <%= error_tag f, :rain %>
+
+  <%= label f, :area %>
+  <%= number_input f, :area, step: "any" %>
+  <%= error_tag f, :area %>
+
+  <%= submit "Save", phx_disable_with: "Saving..." %>
+</form>

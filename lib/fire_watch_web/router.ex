@@ -18,6 +18,12 @@ defmodule FireWatchWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/fires", FireLive.Index, :index
+    live "/fires/new", FireLive.Index, :new
+    live "/fires/:id/edit", FireLive.Index, :edit
+
+    live "/fires/:id", FireLive.Show, :show
+    live "/fires/:id/show/edit", FireLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

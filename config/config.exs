@@ -8,7 +8,7 @@
 use Mix.Config
 
 config :fire_watch,
-  ecto_repos: [FireWatch.Repo]
+ecto_repos: [FireWatch.Repo]
 
 # Configures the endpoint
 config :fire_watch, FireWatchWeb.Endpoint,

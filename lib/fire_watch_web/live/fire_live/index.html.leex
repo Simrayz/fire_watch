@@ -1,0 +1,47 @@
+<h1>Listing Fires</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal @socket, FireWatchWeb.FireLive.FormComponent,
+    id: @fire.id || :new,
+    title: @page_title,
+    action: @live_action,
+    fire: @fire,
+    return_to: Routes.fire_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Month</th>
+      <th>Day</th>
+      <th>Temp</th>
+      <th>Rh</th>
+      <th>Wind</th>
+      <th>Rain</th>
+      <th>Area</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="fires">
+    <%= for fire <- @fires do %>
+      <tr id="fire-<%= fire.id %>">
+        <td><%= fire.month %></td>
+        <td><%= fire.day %></td>
+        <td><%= fire.temp %></td>
+        <td><%= fire.rh %></td>
+        <td><%= fire.wind %></td>
+        <td><%= fire.rain %></td>
+        <td><%= fire.area %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.fire_show_path(@socket, :show, fire) %></span>
+          <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, fire) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: fire.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Fire", to: Routes.fire_index_path(@socket, :new) %></span>
