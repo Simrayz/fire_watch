@@ -7,6 +7,12 @@
         @apply outline-none;
     }
 }
+.btn-main {
+    @apply bg-yellow-600 text-white;
+}
+.btn-main:active {
+    @apply bg-yellow-700;
+}
 .btn-blue {
     @apply bg-blue-500 text-white;
     &:active {
