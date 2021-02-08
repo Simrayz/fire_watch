@@ -1,0 +1,33 @@
+.btn {
+    @apply font-bold uppercase text-xs rounded shadow;
+    &:hover {
+        @apply shadow-md;
+    }
+    &:focus {
+        @apply outline-none;
+    }
+}
+.btn-blue {
+    @apply bg-blue-500 text-white;
+    &:active {
+        @apply bg-blue-600;
+    }
+}
+.btn-indigo {
+    @apply bg-indigo-500 text-white;
+    &:active {
+        @apply bg-indigo-600;
+    }
+}
+.btn-secondary {
+    @apply font-bold uppercase text-xs rounded;
+}
+.btn-secondary:hover {
+    @apply bg-gray-200 text-gray-900;
+}
+.btn-sm {
+    @apply px-2 py-1;
+}
+.btn-md {
+    @apply px-4 py-2;
+}
