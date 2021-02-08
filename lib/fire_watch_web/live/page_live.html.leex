@@ -1,4 +1,4 @@
-<div class="mt-4 grid gap-4 grid-cols-1 lg:grid-cols-2">
+<div class="mt-4 grid gap-4 grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
   <section class="bg-white rounded-md p-4 border">
     <div class="mx-auto max-w-lg flex flex-col items-center space-y-1">
       <img src="<%= Routes.static_path(FireWatchWeb.Endpoint, "/images/firewatch.png") %>" class="h-36 mx-auto" alt="Firewatch Logo"/>
@@ -17,10 +17,10 @@
     </div>
   </section>
 
-  <section class="mt-4 row bg-white rounded-md p-4 shadow">
-    <article class="column">
+  <section class="bg-white rounded-md p-4 shadow flex flex-col">
+    <article class="flex-1">
       <h2 class="text-xl">Resources</h2>
-      <ul>
+      <ul class="list-disc pl-5">
         <li>
           <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
         </li>
@@ -32,9 +32,9 @@
         </li>
       </ul>
     </article>
-    <article class="column">
-      <h2>Help</h2>
-      <ul>
+    <article>
+      <h2 class="text-xl">Help</h2>
+      <ul class="list-disc pl-5">
         <li>
           <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
         </li>
