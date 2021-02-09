@@ -11,7 +11,7 @@ defmodule FireWatchWeb.ModalComponent do
       phx-target="#<%= @id %>"
       phx-page-loading>
 
-      <div class="phx-modal-content max-w-lg">
+      <div class="phx-modal-content w-screen max-w-md rounded-md">
         <%= live_patch raw("&times;"), to: @return_to, class: "phx-modal-close" %>
         <%= live_component @socket, @component, @opts %>
       </div>

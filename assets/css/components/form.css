@@ -2,7 +2,7 @@
     @apply placeholder-gray-400 text-gray-700 relative bg-white rounded border outline-none w-full;
 }
 .form-input:focus {
-    @apply outline-none ring;
+    @apply outline-none border-yellow-300 shadow;
 }
 .form-input-sm {
     @apply px-2 py-1 text-sm;
@@ -14,7 +14,7 @@
     @apply px-3 py-4 text-base;
 }
 .form-group {
-    @apply mb-2;
+    @apply flex flex-col space-y-1;
 }
 .input-label {
     @apply text-sm text-gray-700;

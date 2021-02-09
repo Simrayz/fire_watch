@@ -2,15 +2,19 @@ defmodule FireWatchWeb.FireLive.FormComponent do
   use FireWatchWeb, :live_component
 
   alias FireWatch.Fires
+  alias FireWatch.Fires.Fire
 
   @impl true
   def update(%{fire: fire} = assigns, socket) do
     changeset = Fires.change_fire(fire)
 
     {:ok,
-     socket
-     |> assign(assigns)
-     |> assign(:changeset, changeset)}
+      socket
+      |> assign(assigns)
+      |> assign(:changeset, changeset)
+      |> assign(:day_options, Fire.get_days())
+      |> assign(:month_options, Fire.get_months())
+    }
   end
 
   @impl true
@@ -32,7 +36,7 @@ defmodule FireWatchWeb.FireLive.FormComponent do
       {:ok, _fire} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Fire updated successfully")
+         |> put_flash(:info, "Fire report updated successfully")
          |> push_redirect(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
