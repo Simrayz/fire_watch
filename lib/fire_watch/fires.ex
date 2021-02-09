@@ -22,6 +22,28 @@ defmodule FireWatch.Fires do
   end
 
   @doc """
+  Returns a list of fires matching the given 'criteria'.
+  Example criteria:
+  [
+    paginate: %{page: 2, per_page: 5},
+    sort: %{sort_by: :item, sort_order: :asc}
+  ]
+  """
+  def list_fires(criteria) when is_list(criteria) do
+    query = from(f in Fire)
+
+    Enum.reduce(criteria, query, fn
+        {:paginate, %{page: page, per_page: per_page}}, query ->
+          from q in query,
+            offset: ^((page - 1) * per_page),
+            limit: ^per_page
+        {:sort, %{sort_by: sort_by, sort_order: sort_order}}, query ->
+          from q in query, order_by: [{^sort_order, ^sort_by}]
+    end)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single fire.
 
   Raises `Ecto.NoResultsError` if the Fire does not exist.

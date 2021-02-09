@@ -1,47 +1,59 @@
-<h1>Listing Fires</h1>
+<section class="mt-4 max-w-5xl mx-auto">
+  <h1 class="text-red-700 text-2xl mb-4">Fire Reports</h1>
 
-<%= if @live_action in [:new, :edit] do %>
-  <%= live_modal @socket, FireWatchWeb.FireLive.FormComponent,
-    id: @fire.id || :new,
-    title: @page_title,
-    action: @live_action,
-    fire: @fire,
-    return_to: Routes.fire_index_path(@socket, :index) %>
-<% end %>
+  <%= if @live_action in [:new, :edit] do %>
+    <%= live_modal @socket, FireWatchWeb.FireLive.FormComponent,
+      id: @fire.id || :new,
+      title: @page_title,
+      action: @live_action,
+      fire: @fire,
+      return_to: Routes.fire_index_path(@socket, :index) %>
+  <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Month</th>
-      <th>Day</th>
-      <th>Temp</th>
-      <th>Rh</th>
-      <th>Wind</th>
-      <th>Rain</th>
-      <th>Area</th>
+  <div class="bg-white border border-t-0 rounded-md shadow overflow-hidden mb-4">
+    <table class="table-auto min-w-full">
+      <thead>
+        <tr class="bg-yellow-600 rounded-md text-white font-light">
+          <th class="py-2 px-3">ID</th>
+          <th class="py-2 px-3">Month</th>
+          <th class="py-2 px-3">Day</th>
+          <th class="py-2 px-3">Temp</th>
+          <th class="py-2 px-3">RH</th>
+          <th class="py-2 px-3">Wind</th>
+          <th class="py-2 px-3">Rain</th>
+          <th class="py-2 px-3">Area</th>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody id="fires">
-    <%= for fire <- @fires do %>
-      <tr id="fire-<%= fire.id %>">
-        <td><%= fire.month %></td>
-        <td><%= fire.day %></td>
-        <td><%= fire.temp %></td>
-        <td><%= fire.rh %></td>
-        <td><%= fire.wind %></td>
-        <td><%= fire.rain %></td>
-        <td><%= fire.area %></td>
+          <th class="py-2 px-3"></th>
+        </tr>
+      </thead>
+      <tbody id="fires" class="divide-solid">
+        <%= for fire <- @fires do %>
+          <tr id="fire-<%= fire.id %>" class="text-center">
+            <td class="py-2 px-3"><%= fire.id %></td>
+            <td class="py-2 px-3"><%= fire.month %></td>
+            <td class="py-2 px-3"><%= fire.day %></td>
+            <td class="py-2 px-3"><%= fire.temp %></td>
+            <td class="py-2 px-3"><%= fire.rh %></td>
+            <td class="py-2 px-3"><%= fire.wind %></td>
+            <td class="py-2 px-3"><%= fire.rain %></td>
+            <td class="py-2 px-3"><%= fire.area %></td>
 
-        <td>
-          <span><%= live_redirect "Show", to: Routes.fire_show_path(@socket, :show, fire) %></span>
-          <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, fire) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: fire.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+            <td>
+              <span><%= live_redirect "Show", to: Routes.fire_show_path(@socket, :show, fire), class: "btn-secondary btn-sm" %></span>
+              <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, fire), class: "btn-secondary btn-sm" %></span>
+              <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: fire.id, data: [confirm: "Are you sure?"], class: "btn-secondary btn-sm" %></span>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="flex items-center py-2 justify-center">
+      <% if @options.page > 1 do %>
+        <%= live_patch "Previous", to: Routes.fire_index_path(@socket, :index, page: @options.page - 1, per_page: @options.per_page), class: "btn-secondary hover:bg-yellow-200 btn-sm" %>
+      <% end %>
+      <%= live_patch "Next", to: Routes.fire_index_path(@socket, :index, page: @options.page + 1, per_page: @options.per_page), class: "btn-secondary hover:bg-yellow-200 btn-sm" %>
+    </div>
+  </div>
 
-<span><%= live_patch "New Fire", to: Routes.fire_index_path(@socket, :new) %></span>
+  <span><%= live_patch "New Fire", to: Routes.fire_index_path(@socket, :new), class: "btn btn-main btn-md" %></span>
+</div>

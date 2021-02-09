@@ -6,15 +6,36 @@ defmodule FireWatchWeb.FireLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :fires, list_fires())}
+    paginate_options = %{page: 1, per_page: 10}
+    fires = Fires.list_fires(paginate: paginate_options)
+
+    socket =
+      assign(socket,
+        options: paginate_options,
+        fires: fires
+      )
+    {:ok, socket, temporary_assigns: [fires: []]}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
+    page = String.to_integer(params["page"] || "1")
+    per_page = String.to_integer(params["per_page"] || "5")
+
+    paginate_options = %{page: page, per_page: per_page}
+    fires = Fires.list_fires(paginate: paginate_options)
+
+    socket =
+      assign(socket,
+        options: paginate_options,
+        fires: fires
+      )
+
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
+
     socket
     |> assign(:page_title, "Edit Fire")
     |> assign(:fire, Fires.get_fire!(id))
