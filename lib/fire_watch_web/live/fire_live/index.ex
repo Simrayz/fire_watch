@@ -61,6 +61,25 @@ defmodule FireWatchWeb.FireLive.Index do
     {:noreply, assign(socket, :fires, list_fires())}
   end
 
+  def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
+    per_page = String.to_integer(per_page)
+
+    socket =
+      push_patch(socket,
+        to: Routes.fire_index_path(socket, :index,
+        page: socket.assigns.options.page,
+        per_page: per_page)
+      )
+
+    {:noreply, socket}
+  end
+
+  defp pagination_link(socket, text, page, per_page, class) do
+    live_patch text,
+      to: Routes.fire_index_path(socket, :index, page: page, per_page: per_page),
+      class: class
+  end
+
   defp list_fires do
     Fires.list_fires()
   end

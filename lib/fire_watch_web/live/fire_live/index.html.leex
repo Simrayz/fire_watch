@@ -1,5 +1,5 @@
 <section class="mt-4 max-w-4xl mx-auto">
-  <h1 class="text-red-700 text-2xl mb-4">Fire Reports</h1>
+  <h1 class="text-red-700 text-2xl">Fire Reports</h1>
 
   <%= if @live_action in [:new, :edit] do %>
     <%= live_modal @socket, FireWatchWeb.FireLive.FormComponent,
@@ -10,13 +10,24 @@
       return_to: Routes.fire_index_path(@socket, :index) %>
   <% end %>
 
-  <div class="bg-white border border-yellow-600 border-t-0 rounded-md shadow overflow-hidden mb-4">
+  <div class="flex justify-end mb-2">
+    <form phx-change="select-per-page">
+      <span>Show</span>
+      <select name="per-page" class="bg-white rounded-md border text-red-900">
+        <%= options_for_select([5, 10, 15, 20], @options.per_page) %>
+      </select>
+      <label for="per-page">per page</label>
+    </form> 
+  </div>
+
+  <div class="bg-white border-yellow-600 border-opacity-50 border-t-0 rounded-md shadow overflow-hidden mb-4">
     <table class="table-auto min-w-full border-b border-yellow-600 border-opacity-25">
       <thead>
         <tr class="bg-yellow-600 rounded-md text-white text-sm font-light">
+          <th class="py-2 px-3">ID</th>
           <th class="py-2 px-3">Month</th>
           <th class="py-2 px-3">Week day</th>
-          <th class="py-2 px-3">Temperature (°C)</th>
+          <th class="py-2 px-3">Temp (°C)</th>
           <th class="py-2 px-3">Wind (km/h)</th>
           <th class="py-2 px-3">RH (%)</th>
           <th class="py-2 px-3">Rain (mm/m2)</th>
@@ -26,7 +37,8 @@
       </thead>
       <tbody id="fires" class="divide-solid">
         <%= for {fire, idx} <- Enum.with_index(@fires) do %>
-          <tr id="fire-<%= fire.id %>" class="text-yellow-900 text-center hover:shadow <%= if rem(idx, 2) != 0, do: "bg-yellow-600 bg-opacity-20 hover:bg-opacity-25", else: "hover:bg-gray-100" %>">
+          <tr id="fire-<%= fire.id %>" class="text-yellow-900 text-center hover:shadow <%= if rem(idx, 2) != 0, do: "bg-yellow-600 bg-opacity-10" %>">
+            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.id %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.month %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.day %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.temp %></td>
@@ -44,13 +56,18 @@
         <% end %>
       </tbody>
     </table>
-    <div class="flex items-center py-2 justify-center">
-      <%= if @options.page > 1 do %>
-        <%= live_patch "Previous", to: Routes.fire_index_path(@socket, :index, page: @options.page - 1, per_page: @options.per_page), class: "btn-secondary hover:bg-yellow-200 btn-sm" %>
-      <% end %>
-      <%= live_patch "Next", to: Routes.fire_index_path(@socket, :index, page: @options.page + 1, per_page: @options.per_page), class: "btn-secondary hover:bg-yellow-200 btn-sm" %>
+    <div class="flex items-center py-4 justify-center">
+      <div class="border rounded-md flex items-center overflow-hidden">
+        <%= if @options.page > 1 do %>
+          <%= pagination_link(@socket, "Previous", @options.page - 1, @options.per_page, "hover:bg-yellow-100 px-2 border-r py-1") %>
+        <% end %>
+        <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
+          <%= pagination_link(@socket, i, i, @options.per_page, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
+        <% end %>
+        <%= pagination_link(@socket, "Next", @options.page + 1, @options.per_page, "h-full hover:bg-yellow-100 px-2 py-1") %>
+      </div>
     </div>
   </div>
 
-  <span><%= live_patch "New Fire", to: Routes.fire_index_path(@socket, :new), class: "btn btn-main btn-md" %></span>
+  <span><%= live_patch "New Fire Report", to: Routes.fire_index_path(@socket, :new), class: "btn btn-main btn-md" %></span>
 </div>
