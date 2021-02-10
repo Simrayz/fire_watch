@@ -58,11 +58,11 @@
     </table>
     <div class="flex items-center p-4 justify-end">
       <div class="border rounded-md flex items-center overflow-hidden">
-        <%= if @options.page > 2 do %>
-          <%= pagination_link(@socket, "<<", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
-        <% end %>
         <%= if @options.page > 1 do %>
           <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
+        <% end %>
+         <%= if @options.page > 2 do %>
+          <%= pagination_link(@socket, "<<", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
         <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
           <%= pagination_link(@socket, i, i, @options, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
