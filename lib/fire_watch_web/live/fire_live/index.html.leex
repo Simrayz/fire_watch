@@ -24,7 +24,7 @@
     <table class="table-auto min-w-full border-b border-yellow-600 border-opacity-25">
       <thead>
         <tr class="bg-yellow-600 rounded-md text-white text-sm font-light">
-          <th class="py-2 px-3"><%= sort_link(@socket, "ID", :id, @options) %></th>
+          <th class="py-2 px-3 hover:bg-yellow-700 hover:cursor-pointer"><%= sort_link(@socket, "ID", :id, @options) %></th>
           <th class="py-2 px-3"><%= sort_link(@socket, "Month", :month, @options) %></th>
           <th class="py-2 px-3"><%= sort_link(@socket, "Week day", :day, @options) %></th>
           <th class="py-2 px-3"><%= sort_link(@socket, "Temp (°C)", :temp, @options) %></th>
@@ -58,6 +58,9 @@
     </table>
     <div class="flex items-center p-4 justify-end">
       <div class="border rounded-md flex items-center overflow-hidden">
+        <%= if @options.page > 2 do %>
+          <%= pagination_link(@socket, "<<", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
+        <% end %>
         <%= if @options.page > 1 do %>
           <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
