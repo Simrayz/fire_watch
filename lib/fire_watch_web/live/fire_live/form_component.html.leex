@@ -29,7 +29,7 @@
     </div>
     <div class="form-group">
       <%= label f, :wind, "Wind speed (km/h)", class: "input-label" %>
-      <%= number_input f, :wind, step: "any", class: "form-input form-input-sm" %>
+      <%= number_input f, :wind, step: "0.01", class: "form-input form-input-sm" %>
       <%= error_tag f, :wind %>
     </div>
     <div class="form-group">
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
       <%= label f, :area, "Area (ha)", class: "input-label" %>
-      <%= number_input f, :area, step: "any", class: "form-input form-input-sm" %>
+      <%= number_input f, :area, step: "0.01", placeholder: "0.00", class: "form-input form-input-sm" %>
       <%= error_tag f, :area %>
     </div>
   </section>

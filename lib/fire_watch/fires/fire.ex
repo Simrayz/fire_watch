@@ -25,6 +25,8 @@ defmodule FireWatch.Fires.Fire do
     |> validate_required([:month, :day, :temp, :rh, :wind, :rain, :area])
     |> validate_inclusion(:day, @day_options)
     |> validate_inclusion(:month, @month_options)
+    |> validate_number(:rh, greater_than_or_equal_to: 0, less_than_or_equal_to: 100)
+    |> validate_positive([:wind, :rain, :area])
   end
 
   @doc "Returns month options for use in form selects"
@@ -35,5 +37,11 @@ defmodule FireWatch.Fires.Fire do
   @doc "Returns day options for use in form selects"
   def get_days do
     @day_options
+  end
+
+  defp validate_positive(changeset, keys) do
+    Enum.reduce(keys, changeset, fn key, acc ->
+      validate_number(acc, key, greater_than_or_equal_to: 0)
+    end)
   end
 end

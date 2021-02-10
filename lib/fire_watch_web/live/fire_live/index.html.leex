@@ -1,4 +1,4 @@
-<section class="mt-4 max-w-4xl mx-auto">
+<section class="mt-4 max-w-5xl mx-auto">
   <h1 class="text-red-700 text-2xl">Fire Reports</h1>
 
   <%= if @live_action in [:new, :edit] do %>
@@ -14,7 +14,7 @@
     <form phx-change="select-per-page">
       <span>Show</span>
       <select name="per-page" class="bg-white rounded-md border text-red-900">
-        <%= options_for_select([5, 10, 15, 20], @options.per_page) %>
+        <%= options_for_select([5, 10, 15, 20, 50, 100], @options.per_page) %>
       </select>
       <label for="per-page">per page</label>
     </form> 
@@ -24,21 +24,21 @@
     <table class="table-auto min-w-full border-b border-yellow-600 border-opacity-25">
       <thead>
         <tr class="bg-yellow-600 rounded-md text-white text-sm font-light">
-          <th class="py-2 px-3">ID</th>
-          <th class="py-2 px-3">Month</th>
-          <th class="py-2 px-3">Week day</th>
-          <th class="py-2 px-3">Temp (°C)</th>
-          <th class="py-2 px-3">Wind (km/h)</th>
-          <th class="py-2 px-3">RH (%)</th>
-          <th class="py-2 px-3">Rain (mm/m2)</th>
-          <th class="py-2 px-3">Area (ha)</th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "ID", :id, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Month", :month, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Week day", :day, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Temp (°C)", :temp, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Wind (km/h)", :wind, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "RH (%)", :rh, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Rain (mm/m2)", :rain, @options) %></th>
+          <th class="py-2 px-3"><%= sort_link(@socket, "Area (ha)", :area, @options) %></th>
           <th class="py-2 px-3"></th>
         </tr>
       </thead>
       <tbody id="fires" class="divide-solid">
         <%= for {fire, idx} <- Enum.with_index(@fires) do %>
           <tr id="fire-<%= fire.id %>" class="text-yellow-900 text-center hover:shadow <%= if rem(idx, 2) != 0, do: "bg-yellow-600 bg-opacity-10" %>">
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.id %></td>
+            <td class="text-gray-600 py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.id %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.month %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.day %></td>
             <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.temp %></td>
@@ -56,15 +56,15 @@
         <% end %>
       </tbody>
     </table>
-    <div class="flex items-center py-4 justify-center">
+    <div class="flex items-center p-4 justify-end">
       <div class="border rounded-md flex items-center overflow-hidden">
         <%= if @options.page > 1 do %>
-          <%= pagination_link(@socket, "Previous", @options.page - 1, @options.per_page, "hover:bg-yellow-100 px-2 border-r py-1") %>
+          <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
         <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
-          <%= pagination_link(@socket, i, i, @options.per_page, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
+          <%= pagination_link(@socket, i, i, @options, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
-        <%= pagination_link(@socket, "Next", @options.page + 1, @options.per_page, "h-full hover:bg-yellow-100 px-2 py-1") %>
+        <%= pagination_link(@socket, "Next", @options.page + 1, @options, "h-full hover:bg-yellow-100 px-2 py-1") %>
       </div>
     </div>
   </div>
