@@ -1,4 +1,4 @@
-<div class="mt-4 grid gap-4 grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense">
+<div class="mt-4 grid gap-4 px-2 lg:px-0 grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense">
   <section class="bg-white rounded-md p-4 border">
     <div class="mx-auto h-full flex flex-col items-center justify-center space-y-1">
       <img src="<%= Routes.static_path(FireWatchWeb.Endpoint, "/images/firewatch.png") %>" class="h-20 mx-auto" alt="Firewatch Logo"/>
@@ -16,7 +16,7 @@
     </div>
   </section>
 
-  <section class="bg-white rounded-md p-3 border col-span-3 lg:col-span-4 xl:col-span-4">
+  <section class="bg-white rounded-md p-3 border col-span-2 sm:col-span-3 xl:col-span-4">
     <h2 class="text-xl text-red-900 mb-2">Latest updates</h2>
     <div class="rounded-md overflow-hidden">
       <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: %{ paginate: false } %>

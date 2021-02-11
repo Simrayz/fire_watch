@@ -1,4 +1,4 @@
-<section class="mt-4 max-w-5xl mx-auto">
+<section class="mt-4 max-w-5xl px-2 lg:px-0 mx-auto">
   <h1 class="text-red-700 text-2xl">Fire Reports</h1>
 
   <%= if @live_action in [:new, :edit] do %>
@@ -22,7 +22,8 @@
 
   <div class="bg-white border-yellow-600 border-opacity-50 border-t-0 rounded-md shadow overflow-hidden mb-4">
     <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: @options %>
-    <div class="flex items-center p-4 justify-end">
+    <div class="flex items-center p-4 justify-between">
+      <%= live_patch "New Fire Report", to: Routes.fire_index_path(@socket, :new), class: "btn btn-main btn-md" %>
       <div class="border rounded-md flex items-center overflow-hidden">
         <%= if @options.page > 1 do %>
           <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
@@ -37,6 +38,4 @@
       </div>
     </div>
   </div>
-
-  <span><%= live_patch "New Fire Report", to: Routes.fire_index_path(@socket, :new), class: "btn btn-main btn-md" %></span>
 </div>
