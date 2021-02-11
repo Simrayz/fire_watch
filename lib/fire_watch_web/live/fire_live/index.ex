@@ -41,7 +41,7 @@ defmodule FireWatchWeb.FireLive.Index do
   defp apply_action(socket, :edit, %{"id" => id}) do
 
     socket
-    |> assign(:page_title, "Edit Fire Report")
+    |> assign(:page_title, "Edit Fire Report (##{id})")
     |> assign(:fire, Fires.get_fire!(id))
   end
 

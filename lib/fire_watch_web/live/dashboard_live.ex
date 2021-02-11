@@ -8,7 +8,7 @@ defmodule FireWatchWeb.DashboardLive do
     if connected?(socket), do: Fires.subscribe()
 
     {:ok,
-      assign(socket, query: "", results: %{})
+      assign(socket, query: "", results: %{}, count: Fires.get_total_fires())
       |> fetch_data()
     }
   end
@@ -39,10 +39,14 @@ defmodule FireWatchWeb.DashboardLive do
   end
 
   def handle_info({:created, fire}, socket) do
-    {:noreply, update(socket, :fires, fn fires -> [ fire | fires] |> Enum.take(5) end)}
+    {:noreply,
+      update(socket, :fires, fn fires -> [ fire | fires] |> Enum.take(5) end)
+      |> assign(:count, socket.assigns.count + 1)
+    }
   end
 
   def handle_info({:deleted, del_fire}, socket) do
+    socket = assign(socket, :count, socket.assigns.count - 1)
     case Enum.find(socket.assigns.fires, fn fire -> del_fire.id == fire.id end) do
       nil ->
         {:noreply, socket}

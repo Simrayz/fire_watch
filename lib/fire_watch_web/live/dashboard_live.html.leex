@@ -1,24 +1,22 @@
-<div class="mt-4 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 grid-flow-row-dense">
+<div class="mt-4 grid gap-4 grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense">
   <section class="bg-white rounded-md p-4 border">
     <div class="mx-auto h-full flex flex-col items-center justify-center space-y-1">
       <img src="<%= Routes.static_path(FireWatchWeb.Endpoint, "/images/firewatch.png") %>" class="h-20 mx-auto" alt="Firewatch Logo"/>
       <h1 class="text-red-800 text-xl"><%= gettext "Welcome to %{name}", name: "FireWatch" %></h1>
-      <!--<p>Peace of mind from prototype to production</p>
-
-      <form phx-change="suggest" phx-submit="search" class="flex items-center pt-2 space-x-2">
-        <input class="form-input form-input-sm" type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
-        <datalist id="results">
-          <%= for {app, _vsn} <- @results do %>
-            <option value="<%= app %>"><%= app %></option>
-          <% end %>
-        </datalist>
-        <button class="btn btn-md btn-main" type="submit" phx-disable-with="Searching...">Hexdocs</button>
-      </form>
-      -->
     </div>
   </section>
 
-  <section class="bg-white rounded-md p-3 col-span-2 lg:col-span-3 xl:col-span-4">
+  <section class="bg-white rounded-md p-4 border flex flex-col">
+    <h3 class="text-gray-600 h-6"># Fire Reports</h3>
+    <div class="flex-1 flex justify-center items-center">
+      <div class="text-yellow-700 text-5xl"><%= @count %></div>
+    </div>
+    <div class="h-6 flex items-end justify-center">
+      <%= live_redirect "Browse All", to: Routes.fire_index_path(@socket, :index), class: "btn btn-main btn-sm right" %>
+    </div>
+  </section>
+
+  <section class="bg-white rounded-md p-3 border col-span-3 lg:col-span-4 xl:col-span-4">
     <h2 class="text-xl text-red-900 mb-2">Latest updates</h2>
     <div class="rounded-md overflow-hidden">
       <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: %{ paginate: false } %>
@@ -28,35 +26,18 @@
     </div>
   </section>
 
-  <section class="bg-white rounded-md p-4 shadow flex flex-col">
+  <section class="bg-white rounded-md p-4 border flex flex-col">
     <article class="flex-1">
       <h2 class="text-xl">Resources</h2>
       <ul class="list-disc pl-5">
         <li>
-          <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
+          <a href="https://github.com/Simrayz/fire_watch">Github Repository</a>
         </li>
         <li>
           <a href="https://github.com/phoenixframework/phoenix">Source</a>
         </li>
         <li>
           <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-        </li>
-      </ul>
-    </article>
-    <article>
-      <h2 class="text-xl">Help</h2>
-      <ul class="list-disc pl-5">
-        <li>
-          <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-        </li>
-        <li>
-          <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-        </li>
-        <li>
-          <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-        </li>
-        <li>
-          <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
         </li>
       </ul>
     </article>

@@ -10,6 +10,9 @@
 .btn-main {
     @apply bg-yellow-600 text-white;
 }
+.btn-main:hover {
+    @apply bg-yellow-700;
+}
 .btn-main:active {
     @apply bg-yellow-700;
 }
