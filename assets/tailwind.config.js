@@ -7,6 +7,11 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {},
-  variants: {},
+  variants: {
+    extend: {
+      backgroundColor: ['even', 'odd'],
+      backgroundOpacity: ['even', 'odd']
+    }
+  },
   plugins: []
 };

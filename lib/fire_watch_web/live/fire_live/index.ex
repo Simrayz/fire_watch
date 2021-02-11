@@ -3,6 +3,7 @@ defmodule FireWatchWeb.FireLive.Index do
 
   alias FireWatch.Fires
   alias FireWatch.Fires.Fire
+  alias FireWatchWeb.FireLive.TableComponent
 
   @impl true
   def mount(_params, _session, socket) do

@@ -21,48 +21,14 @@
   </div>
 
   <div class="bg-white border-yellow-600 border-opacity-50 border-t-0 rounded-md shadow overflow-hidden mb-4">
-    <table class="table-auto min-w-full border-b border-yellow-600 border-opacity-25">
-      <thead>
-        <tr class="bg-yellow-600 rounded-md text-white text-sm font-light">
-          <th class="py-2 px-3 hover:bg-yellow-700 hover:cursor-pointer"><%= sort_link(@socket, "ID", :id, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Month", :month, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Week day", :day, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Temp (°C)", :temp, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Wind (km/h)", :wind, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "RH (%)", :rh, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Rain (mm/m2)", :rain, @options) %></th>
-          <th class="py-2 px-3"><%= sort_link(@socket, "Area (ha)", :area, @options) %></th>
-          <th class="py-2 px-3"></th>
-        </tr>
-      </thead>
-      <tbody id="fires" class="divide-solid">
-        <%= for {fire, idx} <- Enum.with_index(@fires) do %>
-          <tr id="fire-<%= fire.id %>" class="text-yellow-900 text-center hover:shadow <%= if rem(idx, 2) != 0, do: "bg-yellow-600 bg-opacity-10" %>">
-            <td class="text-gray-600 py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.id %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.month %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.day %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.temp %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.wind %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.rh %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.rain %></td>
-            <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= fire.area %></td>
-
-            <td>
-              <span><%= live_redirect "Show", to: Routes.fire_show_path(@socket, :show, fire), class: "btn-secondary btn-sm" %></span>
-              <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, fire), class: "btn-secondary btn-sm" %></span>
-              <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: fire.id, data: [confirm: "Are you sure?"], class: "btn-secondary btn-sm" %></span>
-            </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: @options %>
     <div class="flex items-center p-4 justify-end">
       <div class="border rounded-md flex items-center overflow-hidden">
         <%= if @options.page > 1 do %>
           <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
-         <%= if @options.page > 2 do %>
-          <%= pagination_link(@socket, "<<", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
+         <%= if @options.page > 4 do %>
+          <%= pagination_link(@socket, "1 ...", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
         <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
           <%= pagination_link(@socket, i, i, @options, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
