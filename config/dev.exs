@@ -1,11 +1,11 @@
 use Mix.Config
 
+database_url =
+  System.get_env("DATABASE_URL") || "postgres://postgres:postgres@localhost:5432/fire_watch_dev"
+
 # Configure your database
 config :fire_watch, FireWatch.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "fire_watch_dev",
-  hostname: "localhost",
+  url: database_url,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
