@@ -1,4 +1,4 @@
-defmodule FireWatchWeb.PageLive do
+defmodule FireWatchWeb.DashboardLive do
   use FireWatchWeb, :live_view
   alias FireWatch.Fires
   alias FireWatchWeb.FireLive.TableComponent

@@ -17,7 +17,7 @@ defmodule FireWatchWeb.Router do
   scope "/", FireWatchWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", DashboardLive, :index
     live "/fires", FireLive.Index, :index
     live "/fires/new", FireLive.Index, :new
     live "/fires/:id/edit", FireLive.Index, :edit
