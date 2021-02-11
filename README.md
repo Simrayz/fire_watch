@@ -60,7 +60,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 1. If you have postgres installed locally, make sure to turn off the database server as to not cause port conflicts.
 1. Run `docker-compose build`
 2. Run `docker-compose run web mix ecto.setup`. <br/>
-  This step will take some time, as the application will compile. The command creates the database, runs migrations, and seeds initial data (from `forestfires.csv`).
+  This step will take a while, as the application will compile. The command creates the database, runs migrations, and seeds initial data (from `forestfires.csv`).
 3. Run `docker-compose up`<br/>
   This step should start the application if everything went correctly. 
 
