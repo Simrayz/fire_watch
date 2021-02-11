@@ -1,9 +1,9 @@
-<div class="mt-4 grid gap-4 grid-cols-1 lg:grid-cols-3 xl:grid-cols-4">
+<div class="mt-4 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 grid-flow-row-dense">
   <section class="bg-white rounded-md p-4 border">
-    <div class="mx-auto max-w-lg flex flex-col items-center space-y-1">
-      <img src="<%= Routes.static_path(FireWatchWeb.Endpoint, "/images/firewatch.png") %>" class="h-36 mx-auto" alt="Firewatch Logo"/>
-      <h1 class="text-red-700 text-2xl"><%= gettext "Welcome to %{name}!", name: "FireWatch" %></h1>
-      <p>Peace of mind from prototype to production</p>
+    <div class="mx-auto h-full flex flex-col items-center justify-center space-y-1">
+      <img src="<%= Routes.static_path(FireWatchWeb.Endpoint, "/images/firewatch.png") %>" class="h-20 mx-auto" alt="Firewatch Logo"/>
+      <h1 class="text-red-800 text-xl"><%= gettext "Welcome to %{name}", name: "FireWatch" %></h1>
+      <!--<p>Peace of mind from prototype to production</p>
 
       <form phx-change="suggest" phx-submit="search" class="flex items-center pt-2 space-x-2">
         <input class="form-input form-input-sm" type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
@@ -14,6 +14,17 @@
         </datalist>
         <button class="btn btn-md btn-main" type="submit" phx-disable-with="Searching...">Hexdocs</button>
       </form>
+      -->
+    </div>
+  </section>
+
+  <section class="bg-white rounded-md p-3 col-span-2 lg:col-span-3 xl:col-span-4">
+    <h2 class="text-xl text-red-900 mb-2">Latest updates</h2>
+    <div class="rounded-md overflow-hidden">
+      <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: %{ paginate: false } %>
+    </div>
+    <div class="flex justify-end mt-2">
+      <%= live_redirect "Browse Fire Reports", to: Routes.fire_index_path(@socket, :index), class: "btn btn-main btn-md" %>
     </div>
   </section>
 

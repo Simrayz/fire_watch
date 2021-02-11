@@ -44,6 +44,14 @@ defmodule FireWatch.Fires do
   end
 
   @doc """
+  Returns a list of the most recent fire reports in the database.
+  """
+  def list_recent_fires(limit \\ 5) do
+    from(r in Fire, order_by: [desc: r.updated_at], limit: ^limit)
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single fire.
 
   Raises `Ecto.NoResultsError` if the Fire does not exist.
@@ -75,6 +83,7 @@ defmodule FireWatch.Fires do
     %Fire{}
     |> Fire.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:created)
   end
 
   @doc """
@@ -93,6 +102,7 @@ defmodule FireWatch.Fires do
     fire
     |> Fire.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:updated)
   end
 
   @doc """
@@ -109,6 +119,7 @@ defmodule FireWatch.Fires do
   """
   def delete_fire(%Fire{} = fire) do
     Repo.delete(fire)
+    |> broadcast(:deleted)
   end
 
   @doc """
@@ -122,5 +133,19 @@ defmodule FireWatch.Fires do
   """
   def change_fire(%Fire{} = fire, attrs \\ %{}) do
     Fire.changeset(fire, attrs)
+  end
+
+  @doc """
+  Expose subscription function for use in LiveViews
+  """
+  def subscribe do
+    Phoenix.PubSub.subscribe(FireWatch.PubSub, "fires")
+  end
+
+  defp broadcast({:error, _reason} = error, _event), do: error
+
+  defp broadcast({:ok, fire}, event) do
+    Phoenix.PubSub.broadcast(FireWatch.PubSub, "fires", {event, fire})
+    {:ok, fire}
   end
 end
