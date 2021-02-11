@@ -7,18 +7,30 @@
   </section>
 
   <section class="bg-white rounded-md p-4 border flex flex-col">
-    <h3 class="text-gray-600 h-6"># Fire Reports</h3>
+    <h3 class="text-yellow-600 h-6"># Fire Reports</h3>
     <div class="flex-1 flex justify-center items-center">
-      <div class="text-yellow-700 text-5xl"><%= @count %></div>
+      <div class="text-gray-900 text-5xl font-light"><%= @count %></div>
     </div>
     <div class="h-6 flex items-end justify-center">
       <%= live_redirect "Browse All", to: Routes.fire_index_path(@socket, :index), class: "btn btn-main btn-sm right" %>
     </div>
   </section>
 
+  <section class="bg-white rounded-md p-4 border flex flex-col">
+    <h3 class="text-yellow-600 text-center mb-2">Top Forest Fire Months</h3>
+    <div class="text-gray-900 grid grid-cols-2 grid-flow-row gap-1">
+      <%= for {k, v} <- @top_months do %>
+        <div class="text-center">
+          <div class="text-gray-700 text-sm"><%= String.capitalize(k) %></div>
+          <div><%= v %></div>
+        </div>
+      <% end %>
+    </div>
+  </section>
+
   <section class="bg-white rounded-md p-3 border col-span-2 sm:col-span-3 xl:col-span-4">
     <h2 class="text-xl text-red-900 mb-2">Latest updates</h2>
-    <div class="rounded-md overflow-hidden">
+    <div class="rounded-md overflow-hidden border border-yellow-600 border-opacity-25 border-b-0">
       <%= live_component @socket, TableComponent, id: "fires-table", fires: @fires, options: %{ paginate: false } %>
     </div>
     <div class="flex justify-end mt-2">
@@ -26,18 +38,18 @@
     </div>
   </section>
 
-  <section class="bg-white rounded-md p-4 border flex flex-col">
+  <section class="bg-white rounded-md p-4 border flex flex-col text-gray-900">
     <article class="flex-1">
-      <h2 class="text-xl">Resources</h2>
-      <ul class="list-disc pl-5">
+      <h2 class="mb-2 text-xl">Resources</h2>
+      <ul class="list-disc pl-5 text-blue-800">
         <li>
-          <a href="https://github.com/Simrayz/fire_watch">Github Repository</a>
+          <a class="hover:underline" href="https://github.com/Simrayz/fire_watch">Github Repository</a>
         </li>
         <li>
-          <a href="https://github.com/phoenixframework/phoenix">Source</a>
+          <a class="hover:underline" href="https://elixir-lang.org/install.html">Installing Elixir</a>
         </li>
         <li>
-          <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
+          <a class="hover:underline" href="https://hexdocs.pm/phoenix/installation.html">Installing Phoenix</a>
         </li>
       </ul>
     </article>

@@ -6,7 +6,7 @@ defmodule FireWatchWeb.FireLive.TableComponent do
     ~L"""
     <table class="table-auto min-w-full border-b border-yellow-600 border-opacity-25">
       <thead>
-        <tr class="bg-yellow-600 rounded-md text-white text-xs font-light">
+        <tr class="bg-yellow-600 rounded-md text-white text-sm font-light">
           <th class="py-2 px-2"><%= sort_link(@socket, "ID", :id, @options) %></th>
           <th class="py-2 px-2"><%= sort_link(@socket, "Month", :month, @options) %></th>
           <th class="py-2 px-2"><%= sort_link(@socket, "Week day", :day, @options) %></th>

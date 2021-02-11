@@ -8,7 +8,12 @@ defmodule FireWatchWeb.DashboardLive do
     if connected?(socket), do: Fires.subscribe()
 
     {:ok,
-      assign(socket, query: "", results: %{}, count: Fires.get_total_fires())
+      assign(socket,
+        query: "",
+        results: %{},
+        count: Fires.get_total_fires(),
+        top_months:  Fires.list_category_counts() |> get_top_months(6)
+      )
       |> fetch_data()
     }
   end
@@ -74,5 +79,11 @@ defmodule FireWatchWeb.DashboardLive do
 
   defp fetch_data(socket) do
     assign(socket, fires: Fires.list_recent_fires(5))
+  end
+
+  defp get_top_months(month_map, amount \\ 3) do
+    month_map
+    |> Enum.sort_by(fn {_k, v} -> v end, &>=/2)
+    |> Enum.take(amount)
   end
 end
