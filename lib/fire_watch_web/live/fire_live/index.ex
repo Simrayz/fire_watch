@@ -9,11 +9,14 @@ defmodule FireWatchWeb.FireLive.Index do
   def mount(_params, _session, socket) do
     paginate_options = %{page: 1, per_page: 10}
     fires = Fires.list_fires(paginate: paginate_options)
+    fires_count = Fires.get_total_fires()
 
     socket =
       assign(socket,
         options: paginate_options,
-        fires: fires
+        fires: fires,
+        count: fires_count,
+        max_page: get_max_page(fires_count, paginate_options.per_page)
       )
     {:ok, socket, temporary_assigns: [fires: []]}
   end
@@ -32,7 +35,8 @@ defmodule FireWatchWeb.FireLive.Index do
     socket =
       assign(socket,
         options: Map.merge(paginate_options, sort_options),
-        fires: fires
+        fires: fires,
+        max_page: get_max_page(socket.assigns.count, per_page)
       )
 
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
@@ -62,7 +66,11 @@ defmodule FireWatchWeb.FireLive.Index do
     fire = Fires.get_fire!(id)
     {:ok, _} = Fires.delete_fire(fire)
 
-    {:noreply, assign(socket, :fires, list_fires())}
+    {:noreply,
+      assign(socket, :fires, list_fires())
+      |> assign(:count, socket.assigns.count - 1)
+      |> assign(:max_page, get_max_page(socket.assigns.count - 1, socket.assigns.options.per_page))
+    }
   end
 
   def handle_event("select-per-page", %{"per-page" => per_page}, socket) do
@@ -71,7 +79,7 @@ defmodule FireWatchWeb.FireLive.Index do
     socket =
       push_patch(socket,
         to: Routes.fire_index_path(socket, :index,
-          page: socket.assigns.options.page,
+          page: 1,
           per_page: per_page,
           sort_by: socket.assigns.options.sort_by,
           sort_order: socket.assigns.options.sort_order
@@ -96,5 +104,10 @@ defmodule FireWatchWeb.FireLive.Index do
 
   defp list_fires do
     Fires.list_fires()
+  end
+
+  defp get_max_page(total_pages, per_page) do
+    pages = div(total_pages, per_page)
+    if rem(total_pages, per_page) == 0, do: pages, else: pages + 1
   end
 end

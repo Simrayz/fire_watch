@@ -28,13 +28,16 @@
         <%= if @options.page > 1 do %>
           <%= pagination_link(@socket, "Previous", @options.page - 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
-         <%= if @options.page > 4 do %>
-          <%= pagination_link(@socket, "1 ...", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
+         <%= if @options.page > 3 do %>
+          <%= pagination_link(@socket, "First", 1, @options, "hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
-        <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 do %>
+        <%= for i <- (@options.page - 2)..(@options.page + 2), i > 0 && i <= @max_page do %>
           <%= pagination_link(@socket, i, i, @options, "#{ if i === @options.page, do: 'bg-yellow-200'} hover:bg-yellow-100 px-2 border-r py-1") %>
         <% end %>
-        <%= pagination_link(@socket, "Next", @options.page + 1, @options, "h-full hover:bg-yellow-100 px-2 py-1") %>
+        <%= if @options.page < @max_page do %>
+          <%= pagination_link(@socket, "Next", @options.page + 1, @options, "h-full hover:bg-yellow-100 px-2 py-1 border-r") %>
+          <%= pagination_link(@socket, "Last", @max_page, @options, "h-full hover:bg-yellow-100 px-2 py-1") %>
+        <% end %>
       </div>
     </div>
   </div>
