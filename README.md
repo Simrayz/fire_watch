@@ -21,7 +21,9 @@ The data is presented in a paginated table, with the following options:
 4. Edit an existing report by clicking `Edit` on the corresponding row. Delete a report in the same manner by clicking `Delete`.
 
 ## Technology used
-The project was developed using Elixir and the Phoenix Framework. Phoenix LiveView was used for interactive client interaction and live updates. For styling I used Tailwind CSS.
+* The project was developed using [Elixir](https://elixir-lang.org/) and the [Phoenix Framework](https://www.phoenixframework.org/). 
+* [Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/Phoenix.LiveView.html) was used for interactive client interaction and live updates. 
+* [Tailwind CSS](https://tailwindcss.com/) was used for styling.
 
 ## What problems does the application solve?
 The application allows for effective browsing of forest fire reports, as well as creating, updating and deleting said reports. 
@@ -64,7 +66,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-## Learn more
+## Learn more about Phoenix
 
   * Official website: https://www.phoenixframework.org/
   * Guides: https://hexdocs.pm/phoenix/overview.html
