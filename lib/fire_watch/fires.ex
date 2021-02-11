@@ -51,6 +51,21 @@ defmodule FireWatch.Fires do
     |> Repo.all()
   end
 
+  @doc "Get total number of reports in the database"
+  def get_total_fires() do
+    from(f in Fire, select: count(f.id))
+    |> Repo.one()
+  end
+
+  @doc """
+  Returns a map of months and amount of measures
+  """
+  def list_category_counts do
+    from(fire in Fire, group_by: fire.month, select: {fire.month, count(fire.id)})
+    |> Repo.all()
+    |> Enum.into(%{})
+  end
+
   @doc """
   Gets a single fire.
 
