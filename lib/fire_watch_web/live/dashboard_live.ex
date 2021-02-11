@@ -19,24 +19,12 @@ defmodule FireWatchWeb.DashboardLive do
   end
 
   @impl true
-  def handle_event("suggest", %{"q" => query}, socket) do
-    {:noreply, assign(socket, results: search(query), query: query)}
+  def handle_event("delete", %{"id" => id}, socket) do
+    fire = Fires.get_fire!(id)
+    {:ok, _} = Fires.delete_fire(fire)
+
+    {:noreply, socket}
   end
-
-  @impl true
-  def handle_event("search", %{"q" => query}, socket) do
-    case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
-
-      _ ->
-        {:noreply,
-         socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
-    end
-  end
-
 
   @impl true
   def handle_info({:updated, _updated_fire}, socket) do
@@ -47,6 +35,13 @@ defmodule FireWatchWeb.DashboardLive do
     {:noreply,
       update(socket, :fires, fn fires -> [ fire | fires] |> Enum.take(5) end)
       |> assign(:count, socket.assigns.count + 1)
+      |> assign(:top_months, Enum.map(socket.assigns.top_months, fn {mon, val} ->
+        if mon == fire.month do
+          {mon, val + 1}
+        else
+          {mon, val}
+        end
+      end))
     }
   end
 
@@ -54,9 +49,9 @@ defmodule FireWatchWeb.DashboardLive do
     socket = assign(socket, :count, socket.assigns.count - 1)
     case Enum.find(socket.assigns.fires, fn fire -> del_fire.id == fire.id end) do
       nil ->
-        {:noreply, socket}
+        {:noreply, assign(socket, count: socket.assigns.count - 1)}
       _else ->
-        {:noreply, fetch_data(socket)}
+        {:noreply, fetch_data(socket) |> assign(count: socket.assigns.count - 1)}
     end
   end
 
@@ -65,23 +60,11 @@ defmodule FireWatchWeb.DashboardLive do
     {:noreply, socket}
   end
 
-  defp search(query) do
-    if not FireWatchWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
-
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
-  end
-
   defp fetch_data(socket) do
-    assign(socket, fires: Fires.list_recent_fires(5))
+    assign(socket, fires: Fires.list_recent_fires(5), top_months:  Fires.list_category_counts() |> get_top_months(6))
   end
 
-  defp get_top_months(month_map, amount \\ 3) do
+  defp get_top_months(month_map, amount) do
     month_map
     |> Enum.sort_by(fn {_k, v} -> v end, &>=/2)
     |> Enum.take(amount)
