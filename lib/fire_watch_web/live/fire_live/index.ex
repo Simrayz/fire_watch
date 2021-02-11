@@ -94,32 +94,7 @@ defmodule FireWatchWeb.FireLive.Index do
       class: class
   end
 
-  defp sort_link(socket, text, sort_by, options) do
-    text =
-      if sort_by == options.sort_by do
-        text <> get_emoji(options.sort_order)
-      else
-        text
-      end
-
-    live_patch text,
-      to: Routes.fire_index_path(socket, :index,
-        sort_by: sort_by,
-        sort_order: toggle_order(options.sort_order, sort_by == options.sort_by),
-        page: options.page,
-        per_page: options.per_page
-      )
-  end
-
   defp list_fires do
     Fires.list_fires()
   end
-
-  defp toggle_order(:asc, true), do: :desc
-  defp toggle_order(:asc, false), do: :asc
-  defp toggle_order(:desc, true), do: :asc
-  defp toggle_order(:desc, false), do: :asc
-
-  defp get_emoji(:asc), do: " ↓"
-  defp get_emoji(:desc), do: " ↑"
 end
