@@ -37,7 +37,7 @@ defmodule FireWatchWeb.FireLive.FormComponent do
         {:noreply,
          socket
          |> put_flash(:info, "Fire report updated successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         |> push_patch(to: socket.assigns.return_to)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, :changeset, changeset)}
