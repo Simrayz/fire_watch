@@ -43,7 +43,6 @@ defmodule FireWatchWeb.FireLive.Index do
   end
 
   defp apply_action(socket, :edit, %{"id" => id}) do
-
     socket
     |> assign(:page_title, "Edit Fire Report (##{id})")
     |> assign(:fire, Fires.get_fire!(id))
@@ -67,7 +66,8 @@ defmodule FireWatchWeb.FireLive.Index do
     {:ok, _} = Fires.delete_fire(fire)
 
     {:noreply,
-      assign(socket, :fires, list_fires())
+      socket
+      |> push_patch(to: Routes.fire_index_path(socket, :index, socket.assigns.options))
       |> assign(:count, socket.assigns.count - 1)
       |> assign(:max_page, get_max_page(socket.assigns.count - 1, socket.assigns.options.per_page))
     }

@@ -21,7 +21,7 @@ defmodule FireWatchWeb.FireLive.TableComponent do
       </thead>
       <tbody id="fires" class="divide-solid" phx-update=“prepend”>
         <%= for {fire, idx} <- Enum.with_index(@fires) do %>
-          <%= live_component @socket, TableRowComponent, id: "#{fire.id}", fire: fire, idx: idx %>
+          <%= live_component @socket, TableRowComponent, id: "#{fire.id}", fire: fire, idx: idx, options: @options %>
         <% end %>
       </tbody>
     </table>

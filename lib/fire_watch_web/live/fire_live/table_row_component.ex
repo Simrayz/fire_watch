@@ -15,7 +15,7 @@ defmodule FireWatchWeb.FireLive.TableRowComponent do
       <td class="py-2 px-3 border-r border-yellow-600 border-opacity-25"><%= NaiveDateTime.to_string(@fire.updated_at) %></td>
 
       <td>
-        <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, @fire), class: "btn-secondary btn-sm" %></span>
+        <span><%= live_patch "Edit", to: Routes.fire_index_path(@socket, :edit, @fire, @options), class: "btn-secondary btn-sm" %></span>
         <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: @fire.id, data: [confirm: "Are you sure?"], class: "btn-secondary btn-sm" %></span>
       </td>
     </tr>
